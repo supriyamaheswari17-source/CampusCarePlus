@@ -1,140 +1,361 @@
+/* ========================================
+   CAMPUSCAREPLUS - GLOBAL STYLES
+======================================== */
 
-    * {
-        box-sizing: border-box;
-        font-family: 'Times New Roman', Times, serif;
-     
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
 
-    body {
-        margin: 0;
-        background: #f4f7fb;
-        min-height: 100vh;
-    }
+html {
+    scroll-behavior: smooth;
+}
 
-    header {
-        background: #1e3a8a;
-        color: white;
-        text-align: center;
-        padding: 25px;
-        font-weight: bold;
-        font-size: 20px;
-    }
+body {
+    background: #f5f7fb;
+    color: #172033;
+    min-height: 100vh;
+}
 
-    header h1 {
-        margin: 0;
-    }
 
-    /* CampusCare Home Page */
+/* ========================================
+   NAVIGATION BAR
+======================================== */
 
-.home-main {
+.navbar {
+    width: 100%;
+    background: #123b7a;
+    color: white;
+    padding: 18px 7%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    min-height: 70vh;
-    text-align: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }
 
-.home-main h2 {
-    margin-bottom: 15px;
-    font-size: 35px;
-    font-weight: bold;
-    text-decoration: underline;
-    font-family: 'Times New Roman', Times, serif;
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
 }
 
-.home-main p {
-    margin-bottom: 25px;
-    line-height: 1.6;
-    font-size: 25px;
-    font-weight: bold;
+.navbar nav {
+    margin: 0;
 }
 
-.home-main .buttons {
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 28px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.navbar nav a:hover {
+    opacity: 0.75;
+}
+
+
+/* ========================================
+   HERO SECTION
+======================================== */
+
+.hero {
+    min-height: 560px;
     display: flex;
-    gap: 20px;
-    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 70px 20px;
+    background: linear-gradient(
+        135deg,
+        #eef5ff,
+        #ffffff
+    );
 }
 
-.home-main .buttons button {
-    width: 180px;
-    margin-top: 10px;
-    font-weight: bold;
+.hero-content {
+    max-width: 850px;
 }
 
-    .login-box {
-        background: white;
-        width: 380px;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        font-size: 15px;
-        font-weight: bold;
-    }
+.badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: #174a91;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
 
-    .login-box h2 {
-        text-align: center;
-        margin-bottom: 25px;
+.hero h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    margin-bottom: 22px;
+    color: #14213d;
+}
 
-    }
+.hero h1 span {
+    display: block;
+    color: #1d5db5;
+}
 
-    label {
-        display: block;
-        margin-top: 15px;
-        margin-bottom: 6px;
-        font-weight: bold;
-    }
+.hero p {
+    max-width: 680px;
+    margin: 0 auto 32px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #5b667a;
+}
 
-    input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-    }
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
 
-    button {
-        width: 100%;
-        margin-top: 25px;
-        padding: 12px;
-        border: none;
-        border-radius: 6px;
-        background: #1e3a8a;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-    }
+.primary-btn,
+.secondary-btn {
+    width: auto;
+    min-width: 170px;
+    margin: 0;
+    padding: 13px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    button:hover {
-        background: #172554;
-    }
+.primary-btn {
+    background: #1d5db5;
+    color: white;
+}
 
-    #message {
-        text-align: center;
-        margin-top: 15px;
-        font-weight: bold;
-    }
-/* Complaint Page */
+.primary-btn:hover {
+    background: #15498f;
+}
+
+.secondary-btn {
+    background: white;
+    color: #1d5db5;
+    border: 1px solid #1d5db5;
+}
+
+.secondary-btn:hover {
+    background: #edf4ff;
+}
+
+
+/* ========================================
+   FEATURES SECTION
+======================================== */
+
+.features-section {
+    padding: 75px 7%;
+    text-align: center;
+    background: white;
+}
+
+.features-section h2 {
+    font-size: 34px;
+    color: #14213d;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    color: #667085;
+    font-size: 16px;
+    margin-bottom: 42px;
+}
+
+.feature-container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.feature-card {
+    background: #f8faff;
+    padding: 32px 25px;
+    border: 1px solid #e4eaf3;
+    border-radius: 14px;
+    transition: 0.25s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+    font-size: 38px;
+    margin-bottom: 18px;
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #183b70;
+}
+
+.feature-card p {
+    color: #667085;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+
+/* ========================================
+   ABOUT SECTION
+======================================== */
+
+.about-section {
+    padding: 70px 7%;
+    background: #f5f7fb;
+}
+
+.about-box {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 45px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.about-box h2 {
+    font-size: 30px;
+    margin-bottom: 18px;
+    color: #14213d;
+}
+
+.about-box p {
+    color: #667085;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+footer {
+    background: #102f5f;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+
+/* ========================================
+   LOGIN BOX
+======================================== */
+
+.login-box {
+    background: white;
+    width: 380px;
+    max-width: 90%;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #14213d;
+    font-size: 24px;
+}
+
+.login-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd4e0;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #1d5db5;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 13px;
+    border: none;
+    border-radius: 7px;
+    background: #1d5db5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #15498f;
+}
+
+
+/* ========================================
+   MESSAGE
+======================================== */
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+
+/* ========================================
+   COMPLAINT PAGE
+======================================== */
 
 .complaint-box {
     background: white;
-    width: 500px;
-    max-width: 90%;
+    width: 550px;
+    max-width: 92%;
     margin: 40px auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    padding: 32px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
 }
 
 .complaint-box h2 {
     text-align: center;
     margin-bottom: 25px;
+    color: #14213d;
 }
 
 .complaint-box label {
     display: block;
     margin-top: 15px;
     margin-bottom: 6px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .complaint-box input,
@@ -142,8 +363,8 @@
 .complaint-box textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #ccd4e0;
+    border-radius: 7px;
     font-size: 14px;
 }
 
@@ -152,28 +373,33 @@
     resize: vertical;
 }
 
+.complaint-box input:focus,
+.complaint-box select:focus,
+.complaint-box textarea:focus {
+    outline: none;
+    border-color: #1d5db5;
+}
+
 .complaint-box button {
     width: 100%;
     margin-top: 25px;
-    padding: 12px;
+    padding: 13px;
     border: none;
-    border-radius: 6px;
-    background: #1e3a8a;
+    border-radius: 7px;
+    background: #1d5db5;
     color: white;
     font-size: 16px;
     cursor: pointer;
 }
 
 .complaint-box button:hover {
-    background: #172554;
+    background: #15498f;
 }
 
-#message {
-    text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
-}
-/* Admin Dashboard */
+
+/* ========================================
+   ADMIN DASHBOARD
+======================================== */
 
 main {
     padding: 30px;
@@ -182,122 +408,9 @@ main {
 main h2 {
     text-align: center;
     margin-bottom: 25px;
-    font-weight: bold;
+    font-weight: 700;
+    color: #14213d;
 }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-}
-
-th {
-    background: #1e3a8a;
-    color: white;
-    padding: 12px;
-    text-align: left;
-}
-
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
-tr:hover {
-    background: #f4f7fb;
-}
-
-td select {
-    padding: 7px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#message {
-    text-align: center;
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-@media (max-width: 768px) {
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    main {
-        padding: 15px;
-    }
-}
-/* Admin*/
-
-.login-box {
-    background: white;
-    width: 380px;
-    max-width: 90%;
-    margin: 60px auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.login-box h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.login-box label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 6px;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.login-box input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-.login-box button {
-    width: 100%;
-    margin-top: 25px;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background: #1e3a8a;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.login-box button:hover {
-    background: #172554;
-}
-/* Navigation */
-
-nav {
-    margin-top: 15px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-/* Dashboard Statistics */
 
 .stats-container {
     display: flex;
@@ -309,24 +422,67 @@ nav a:hover {
 
 .stat-card {
     background: white;
-    width: 200px;
-    padding: 20px;
+    width: 210px;
+    padding: 24px;
     text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.09);
+    border: 1px solid #e5eaf1;
 }
 
 .stat-card h3 {
-    margin: 0 0 10px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #667085;
 }
 
 .stat-card p {
     margin: 0;
     font-size: 30px;
-    font-weight: bold;
+    font-weight: 700;
+    color: #1d5db5;
 }
-/* Student Complaint Status */
+
+
+/* ========================================
+   TABLE
+======================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #123b7a;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 13px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background: #f5f8fc;
+}
+
+td select {
+    padding: 7px;
+    border: 1px solid #ccd4e0;
+    border-radius: 5px;
+}
+
+
+/* ========================================
+   STUDENT STATUS
+======================================== */
 
 .status-box {
     background: white;
@@ -334,8 +490,8 @@ nav a:hover {
     max-width: 900px;
     margin: 40px auto;
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .status-box h2 {
@@ -346,34 +502,130 @@ nav a:hover {
 .status-box label {
     display: block;
     margin-bottom: 6px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .status-box input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #ccd4e0;
+    border-radius: 7px;
 }
 
 .status-box button {
     width: 100%;
     margin-top: 18px;
-    padding: 12px;
+    padding: 13px;
     border: none;
-    border-radius: 6px;
-    background: #1e3a8a;
+    border-radius: 7px;
+    background: #1d5db5;
     color: white;
     font-size: 16px;
     cursor: pointer;
+}
+
+.status-box button:hover {
+    background: #15498f;
 }
 
 .status-box table {
     margin-top: 30px;
 }
 
-#message {
-    text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
+
+/* ========================================
+   MOBILE RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px 5%;
+    }
+
+    .navbar nav a {
+        margin: 0 8px;
+        font-size: 14px;
+    }
+
+    .hero {
+        min-height: 500px;
+        padding: 50px 20px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .feature-container {
+        grid-template-columns: 1fr;
+    }
+
+    .features-section h2 {
+        font-size: 28px;
+    }
+
+    .about-box {
+        padding: 30px 20px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .stats-container {
+        gap: 12px;
+    }
+
+    .stat-card {
+        width: 160px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .navbar nav a {
+        margin: 0 5px;
+        font-size: 13px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 90%;
+    }
+
+    .login-box {
+        margin: 35px auto;
+        padding: 22px;
+    }
+
+    .complaint-box {
+        padding: 22px;
+    }
 }
