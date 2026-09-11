@@ -1,78 +1,185 @@
 import os
-from flask import Flask, request, jsonify,send_from_directory
+
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
 from dotenv import load_dotenv
+
+
+# Load environment variables
 load_dotenv()
 
-app = Flask(__name__)
-CORS(app)
-# MySQL connection
-import os
 
-db = mysql.connector.connect(
-    host=os.getenv("DB_HOST", "localhost"),
-    user=os.getenv("DB_USER", "root"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME", "railway"),
-    port=int(os.getenv("DB_PORT", "53935"))
-)
+# Create Flask application
+app = Flask(__name__)
+
+CORS(app)
+
+
+# --------------------------------------------------
+# DATABASE CONNECTION
+# --------------------------------------------------
+
+def get_db_connection():
+
+    return mysql.connector.connect(
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", ""),
+        database=os.getenv("DB_NAME", "campuscare"),
+        port=int(os.getenv("DB_PORT", "3306"))
+    )
+
+
+# --------------------------------------------------
+# HOME
+# --------------------------------------------------
 
 @app.route("/")
 def home():
-    return send_from_directory("campus.html")
-@app.route("/student-login-page")
-def student_login_page():
-    return send_from_directory("student-login.html")
+
+    return jsonify({
+        "message": "CampusCarePlus Backend is running successfully! 🚀"
+    })
+
+
+# --------------------------------------------------
+# STUDENT LOGIN
+# --------------------------------------------------
+
 @app.route("/student-login", methods=["POST"])
 def student_login():
-    data = request.get_json()
+
+    data = request.get_json() or {}
 
     email = data.get("email")
-    password=data.get("password")
+    password = data.get("password")
 
-    cursor = db.cursor(dictionary=True)
 
-    query = "SELECT * FROM students WHERE email = %s and password=%s"
-    cursor.execute(query, (email,password))
+    if not email or not password:
 
-    student = cursor.fetchone()
+        return jsonify({
+            "message": "Email and password are required."
+        }), 400
 
-    cursor.close()
 
-    if student:
-        return jsonify({"message": "Login successful! 🎉"})
-    else:
-        return jsonify({"message": "Invalid email or password"}), 401
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+
+        cursor.execute(
+            """
+            SELECT *
+            FROM students
+            WHERE email = %s AND password = %s
+            """,
+            (email, password)
+        )
+
+
+        student = cursor.fetchone()
+
+
+        cursor.close()
+        db.close()
+
+
+        if student:
+
+            return jsonify({
+                "message": "Login successful! 🎉"
+            })
+
+
+        return jsonify({
+            "message": "Invalid email or password."
+        }), 401
+
+
+    except Exception as error:
+
+        print("STUDENT LOGIN ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to connect to database."
+        }), 500
+
+
+# --------------------------------------------------
+# ADMIN LOGIN
+# --------------------------------------------------
+
 @app.route("/admin-login", methods=["POST"])
 def admin_login():
-    data = request.get_json()
+
+    data = request.get_json() or {}
 
     username = data.get("username")
     password = data.get("password")
 
-    cursor = db.cursor(dictionary=True)
 
-    cursor.execute(
-        "SELECT * FROM admin WHERE username = %s AND password = %s",
-        (username, password)
-    )
+    if not username or not password:
 
-    admin = cursor.fetchone()
-    cursor.close()
+        return jsonify({
+            "message": "Username and password are required."
+        }), 400
 
-    if admin:
-        return jsonify({"message": "Admin login successful! 🎉"})
-    else:
-        return jsonify({"message": "Invalid username or password."}), 401
-@app.route("/student-register")
-def student_register_page():
-    return send_from_directory(".", "student-register.html")
+
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+
+        cursor.execute(
+            """
+            SELECT *
+            FROM admin
+            WHERE username = %s AND password = %s
+            """,
+            (username, password)
+        )
+
+
+        admin = cursor.fetchone()
+
+
+        cursor.close()
+        db.close()
+
+
+        if admin:
+
+            return jsonify({
+                "message": "Admin login successful! 🎉"
+            })
+
+
+        return jsonify({
+            "message": "Invalid username or password."
+        }), 401
+
+
+    except Exception as error:
+
+        print("ADMIN LOGIN ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to connect to database."
+        }), 500
+
+
+# --------------------------------------------------
+# STUDENT REGISTRATION
+# --------------------------------------------------
+
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
 
-    print("REGISTER DATA:", data)
+    data = request.get_json() or {}
+
 
     name = data.get("name")
     roll_number = data.get("roll_number")
@@ -80,102 +187,358 @@ def register():
     email = data.get("email")
     password = data.get("password")
 
-    cursor = db.cursor()
 
-    cursor.execute(
-        "INSERT INTO students (name, roll_number, department, email, password) VALUES (%s, %s, %s, %s, %s)",
-        (name, roll_number, department, email, password)
-    )
+    if not all([
+        name,
+        roll_number,
+        department,
+        email,
+        password
+    ]):
 
-    db.commit()
-    cursor.close()
+        return jsonify({
+            "message": "All fields are required."
+        }), 400
 
-    return jsonify({"message": "Student registered successfully!"})
+
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor()
+
+
+        # Check whether email already exists
+        cursor.execute(
+            "SELECT id FROM students WHERE email = %s",
+            (email,)
+        )
+
+
+        existing_student = cursor.fetchone()
+
+
+        if existing_student:
+
+            cursor.close()
+            db.close()
+
+            return jsonify({
+                "message": "A student with this email already exists."
+            }), 409
+
+
+        # Check whether roll number already exists
+        cursor.execute(
+            "SELECT id FROM students WHERE roll_number = %s",
+            (roll_number,)
+        )
+
+
+        existing_roll = cursor.fetchone()
+
+
+        if existing_roll:
+
+            cursor.close()
+            db.close()
+
+            return jsonify({
+                "message": "This roll number is already registered."
+            }), 409
+
+
+        cursor.execute(
+            """
+            INSERT INTO students
+            (name, roll_number, department, email, password)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (
+                name,
+                roll_number,
+                department,
+                email,
+                password
+            )
+        )
+
+
+        db.commit()
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify({
+            "message": "Student registered successfully! 🎉"
+        }), 201
+
+
+    except Exception as error:
+
+        print("REGISTRATION ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to register student."
+        }), 500
+
+
+# --------------------------------------------------
+# SUBMIT COMPLAINT
+# --------------------------------------------------
+
 @app.route("/submit-complaint", methods=["POST"])
 def submit_complaint():
-    data = request.get_json()
+
+    data = request.get_json() or {}
+
 
     student_email = data.get("student_email")
     title = data.get("title")
     category = data.get("category")
+    location = data.get("location")
     description = data.get("description")
 
-    cursor = db.cursor()
 
-    cursor.execute(
-        """INSERT INTO complaints
-        (student_email, title, category, description)
-        VALUES (%s, %s, %s, %s)""",
-        (student_email, title, category, description)
-    )
+    if not all([
+        student_email,
+        title,
+        category,
+        location,
+        description
+    ]):
 
-    db.commit()
-    cursor.close()
+        return jsonify({
+            "message": "All complaint fields are required."
+        }), 400
 
-    return jsonify({"message": "Complaint submitted successfully! 🎉"})
-@app.route("/complaint")
-def complaint_page():
-    return send_from_directory("..","complaint.html")
-@app.route("/admin")
-def admin_page():
-    return send_from_directory("..", "admin-login.html")
-@app.route("/admin-dashboard")
-def admin_dashboard():
-    return send_from_directory("..", "admin-dashboard.html")
 
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor()
+
+
+        cursor.execute(
+            """
+            INSERT INTO complaints
+            (
+                student_email,
+                title,
+                category,
+                location,
+                description
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (
+                student_email,
+                title,
+                category,
+                location,
+                description
+            )
+        )
+
+
+        db.commit()
+
+
+        complaint_id = cursor.lastrowid
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify({
+            "message": "Complaint submitted successfully! 🎉",
+            "complaint_id": complaint_id
+        }), 201
+
+
+    except Exception as error:
+
+        print("COMPLAINT ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to submit complaint."
+        }), 500
+
+
+# --------------------------------------------------
+# GET ALL COMPLAINTS
+# --------------------------------------------------
 
 @app.route("/complaints", methods=["GET"])
 def get_complaints():
-    cursor = db.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM complaints ORDER BY created_at DESC")
+    try:
 
-    complaints = cursor.fetchall()
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
 
-    cursor.close()
 
-    return jsonify(complaints) 
+        cursor.execute(
+            """
+            SELECT *
+            FROM complaints
+            ORDER BY created_at DESC
+            """
+        )
+
+
+        complaints = cursor.fetchall()
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify(complaints)
+
+
+    except Exception as error:
+
+        print("GET COMPLAINTS ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to load complaints."
+        }), 500
+
+
+# --------------------------------------------------
+# UPDATE COMPLAINT STATUS
+# --------------------------------------------------
+
 @app.route("/update-status/<int:complaint_id>", methods=["PUT"])
 def update_status(complaint_id):
-    data = request.get_json()
+
+    data = request.get_json() or {}
 
     status = data.get("status")
 
-    cursor = db.cursor()
 
-    cursor.execute(
-        "UPDATE complaints SET status = %s WHERE id = %s",
-        (status, complaint_id)
-    )
-
-    db.commit()
-    cursor.close()
-
-    return jsonify({"message": "Complaint status updated successfully!"}) 
-@app.route("/campus.css")
-def campus_css():
-    return send_from_directory("..", "campus.css")
-
-@app.route("/student-status")
-def student_status():
-    return send_from_directory("..", "student-status.html")
+    allowed_statuses = [
+        "Pending",
+        "In Progress",
+        "Resolved"
+    ]
 
 
-@app.route("/student-complaints/<email>")
+    if status not in allowed_statuses:
+
+        return jsonify({
+            "message": "Invalid complaint status."
+        }), 400
+
+
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor()
+
+
+        cursor.execute(
+            """
+            UPDATE complaints
+            SET status = %s
+            WHERE id = %s
+            """,
+            (status, complaint_id)
+        )
+
+
+        db.commit()
+
+
+        if cursor.rowcount == 0:
+
+            cursor.close()
+            db.close()
+
+            return jsonify({
+                "message": "Complaint not found."
+            }), 404
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify({
+            "message": "Complaint status updated successfully! ✅"
+        })
+
+
+    except Exception as error:
+
+        print("UPDATE STATUS ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to update complaint status."
+        }), 500
+
+
+# --------------------------------------------------
+# GET STUDENT COMPLAINTS
+# --------------------------------------------------
+
+@app.route("/student-complaints/<email>", methods=["GET"])
 def student_complaints(email):
-    cursor = db.cursor(dictionary=True)
 
-    cursor.execute(
-        "SELECT id, title, category, description, status, created_at "
-        "FROM complaints WHERE student_email = %s "
-        "ORDER BY created_at DESC",
-        (email,)
+    try:
+
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                title,
+                category,
+                location,
+                description,
+                status,
+                created_at
+            FROM complaints
+            WHERE student_email = %s
+            ORDER BY created_at DESC
+            """,
+            (email,)
+        )
+
+
+        complaints = cursor.fetchall()
+
+
+        cursor.close()
+        db.close()
+
+
+        return jsonify(complaints)
+
+
+    except Exception as error:
+
+        print("STUDENT COMPLAINT ERROR:", error)
+
+        return jsonify({
+            "message": "Unable to load student complaints."
+        }), 500
+
+
+# --------------------------------------------------
+# RUN APPLICATION
+# --------------------------------------------------
+
+if __name__ == "__main__":
+
+    app.run(
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "5000")),
+        debug=True
     )
-
-    complaints = cursor.fetchall()
-
-    cursor.close()
-
-    return jsonify(complaints)
-if __name__=="__main__":
-    app.run(debug=True)
