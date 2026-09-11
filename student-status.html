@@ -1,97 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Complaints - CampusCare</title>
-    <link rel="stylesheet" href="/campus.css">
+
+    <title>My Complaints | CampusCarePlus</title>
+
+    <link rel="stylesheet" href="campus.css">
 </head>
 
 <body>
 
-<header>
-    <h1>CampusCare 🏫</h1>
-    <p>My Complaint Status</p>
-</header>
+    <!-- Navigation -->
+    <header class="navbar">
 
-<main>
-    <div class="status-box">
+        <div class="logo">
+            🏫 CampusCarePlus
+        </div>
 
-        <h2>Check My Complaints</h2>
+        <nav>
+            <a href="complaint.html">Submit Complaint</a>
+            <a href="student-status.html">My Complaints</a>
+            <a href="student-login.html">Logout</a>
+        </nav>
 
-        <form id="statusForm">
-            <label>Student Email</label>
-            <input type="email" id="email"
-                   placeholder="Enter your email" required>
+    </header>
 
-            <button type="submit">View Complaints</button>
-        </form>
 
-        <div id="message"></div>
+    <!-- Complaint Status -->
+    <main>
 
-        <table id="complaintsTable" style="display:none;">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
+        <div class="status-box">
 
-            <tbody id="complaintsBody"></tbody>
-        </table>
+            <div style="
+                text-align: center;
+                font-size: 42px;
+                margin-bottom: 10px;
+            ">
+                🔎
+            </div>
 
-    </div>
-</main>
-<script>
-document.getElementById("statusForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+            <h2>My Complaints</h2>
 
-    const email = document.getElementById("email").value;
+            <p style="
+                text-align: center;
+                color: #667085;
+                margin-bottom: 25px;
+                font-size: 14px;
+            ">
+                Enter your registered email to view your complaints.
+            </p>
 
-    try {
-        const response = await fetch(
-            `/student-complaints/${encodeURIComponent(email)}`
-        );
 
-        const complaints = await response.json();
+            <form id="statusForm">
 
-        const table = document.getElementById("complaintsTable");
-        const body = document.getElementById("complaintsBody");
-        const message = document.getElementById("message");
+                <label for="email">
+                    Student Email
+                </label>
 
-        body.innerHTML = "";
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your registered email"
+                    required
+                >
 
-        if (complaints.length === 0) {
-            table.style.display = "none";
-            message.textContent = "No complaints found for this email.";
-            return;
-        }
+                <button type="submit">
+                    View My Complaints
+                </button>
 
-        message.textContent = "";
-        table.style.display = "table";
+            </form>
 
-        complaints.forEach(complaint => {
-            const row = document.createElement("tr");
 
-            row.innerHTML = `
-                <td>${complaint.title}</td>
-                <td>${complaint.category}</td>
-                <td>${complaint.description}</td>
-                <td>${complaint.status}</td>
-                <td>${complaint.created_at}</td>
-            `;
+            <div id="message"></div>
 
-            body.appendChild(row);
-        });
 
-    } catch (error) {
-        document.getElementById("message").textContent =
-            "Unable to load complaints.";
-    }
-});
-</script>
+            <!-- Complaints Table -->
+            <div style="overflow-x: auto; margin-top: 25px;">
+
+                <table
+                    id="complaintsTable"
+                    style="display: none;"
+                >
+
+                    <thead>
+
+                        <tr>
+                            <th>Complaint</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="complaintsBody"></tbody>
+
+                </table>
+
+            </div>
+
+
+            <button
+                type="button"
+                onclick="window.location.href='complaint.html'"
+                style="
+                    background: white;
+                    color: #1d5db5;
+                    border: 1px solid #1d5db5;
+                    margin-top: 25px;
+                "
+            >
+                + Submit New Complaint
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        document
+            .getElementById("statusForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document.getElementById("email")
+                    .value
+                    .trim();
+
+
+                const table =
+                    document.getElementById("complaintsTable");
+
+                const body =
+                    document.getElementById("complaintsBody");
+
+                const message =
+                    document.getElementById("message");
+
+
+                message.textContent =
+                    "Loading your complaints...";
+
+                message.style.color = "#1d5db5";
+
+                table.style.display = "none";
+
+                body.innerHTML = "";
+
+
+                try {
+
+                    const response = await fetch(
+                        `https://campuscare-j018.onrender.com/student-complaints/${encodeURIComponent(email)}`
+                    );
+
+
+                    if (!response.ok) {
+                        throw new Error("Unable to load complaints");
+                    }
+
+
+                    const complaints =
+                        await response.json();
+
+
+                    if (!Array.isArray(complaints) ||
+                        complaints.length === 0) {
+
+                        message.textContent =
+                            "No complaints found for this email.";
+
+                        message.style.color = "#667085";
+
+                        return;
+                    }
+
+
+                    message.textContent =
+                        `${complaints.length} complaint(s) found.`;
+
+                    message.style.color = "#1d5db5";
+
+                    table.style.display = "table";
+
+
+                    complaints.forEach(function(complaint) {
+
+                        const row =
+                            document.createElement("tr");
+
+
+                        const title =
+                            document.createElement("td");
+
+                        title.textContent =
+                            complaint.title || "-";
+
+
+                        const category =
+                            document.createElement("td");
+
+                        category.textContent =
+                            complaint.category || "-";
+
+
+                        const description =
+                            document.createElement("td");
+
+                        description.textContent =
+                            complaint.description || "-";
+
+
+                        const status =
+                            document.createElement("td");
+
+                        status.textContent =
+                            complaint.status || "Pending";
+
+
+                        const date =
+                            document.createElement("td");
+
+                        date.textContent =
+                            complaint.created_at || "-";
+
+
+                        row.appendChild(title);
+                        row.appendChild(category);
+                        row.appendChild(description);
+                        row.appendChild(status);
+                        row.appendChild(date);
+
+
+                        body.appendChild(row);
+
+                    });
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    message.textContent =
+                        "Unable to load complaints. Please try again.";
+
+                    message.style.color = "red";
+
+                }
+
+            });
+
+    </script>
+
 </body>
+
 </html>
