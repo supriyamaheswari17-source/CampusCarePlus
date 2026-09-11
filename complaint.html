@@ -1,139 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>CampusCare - Submit Complaint</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Submit Complaint | CampusCarePlus</title>
+
     <link rel="stylesheet" href="campus.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>CampusCare 🏫</h1>
-        <p>Submit Your Complaint</p>
-            <nav>
-        <a href="/complaint">Submit Complaint</a>
-        <a href="/student-status">My Complaints</a>
-        <a href="/student-login-page">Logout</a>
-    </nav>
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            🏫 CampusCarePlus
+        </div>
+
+        <nav>
+            <a href="complaint.html">Submit Complaint</a>
+            <a href="student-status.html">My Complaints</a>
+            <a href="student-login.html">Logout</a>
+        </nav>
+
     </header>
 
+
+    <!-- Complaint Form -->
     <main>
+
         <div class="complaint-box">
 
-            <h2>Submit Complaint</h2>
+            <div style="
+                text-align: center;
+                font-size: 42px;
+                margin-bottom: 10px;
+            ">
+                📝
+            </div>
+
+            <h2>Submit a Complaint</h2>
+
+            <p style="
+                text-align: center;
+                color: #667085;
+                margin-bottom: 25px;
+                font-size: 14px;
+            ">
+                Tell us about the issue you are facing on campus.
+            </p>
+
 
             <form id="complaintForm">
 
-                <label>Student Email</label>
-                <input type="email" id="student_email"
-                       placeholder="Enter your registered email" required>
+                <!-- Student Email -->
+                <label for="student_email">
+                    Student Email
+                </label>
 
-                <label>Complaint Title</label>
-                <input type="text" id="title"
-                       placeholder="Enter complaint title" required>
+                <input
+                    type="email"
+                    id="student_email"
+                    placeholder="Enter your registered email"
+                    required
+                >
 
-                <label>Category</label>
+
+                <!-- Complaint Title -->
+                <label for="title">
+                    Complaint Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Example: Wi-Fi not working"
+                    maxlength="100"
+                    required
+                >
+
+
+                <!-- Category -->
+                <label for="category">
+                    Category
+                </label>
+
                 <select id="category" required>
-                    <option value="">Select Category</option>
-                    <option value="Academic">Academic</option>
-                    <option value="Hostel">Hostel</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Canteen">Canteen</option>
-                    <option value="Infrastructure">Infrastructure</option>
-                    <option value="Other">Other</option>
+
+                    <option value="">
+                        Select complaint category
+                    </option>
+
+                    <option value="Academic">
+                        Academic
+                    </option>
+
+                    <option value="Hostel">
+                        Hostel
+                    </option>
+
+                    <option value="Transport">
+                        Transport
+                    </option>
+
+                    <option value="Canteen">
+                        Canteen / Food
+                    </option>
+
+                    <option value="Infrastructure">
+                        Infrastructure
+                    </option>
+
+                    <option value="Cleanliness">
+                        Cleanliness
+                    </option>
+
+                    <option value="Electricity">
+                        Electricity
+                    </option>
+
+                    <option value="Water">
+                        Water
+                    </option>
+
+                    <option value="Wi-Fi / Internet">
+                        Wi-Fi / Internet
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
                 </select>
 
-                <label>Description</label>
-                <textarea id="description"
-                          placeholder="Describe your complaint"
-                          required></textarea>
 
-                <button type="submit">Submit Complaint</button>
+                <!-- Location -->
+                <label for="location">
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Example: CSE Block - Room 204"
+                    maxlength="150"
+                    required
+                >
+
+
+                <!-- Description -->
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Describe the problem clearly..."
+                    maxlength="1000"
+                    required
+                ></textarea>
+
+
+                <!-- Submit -->
+                <button type="submit">
+                    Submit Complaint
+                </button>
 
             </form>
-            <p>
-    Want to check your complaint status?
-    <a href="https://campuscare-j018.onrender.com/student-status">View My Complaints</a>
-</p>
 
+
+            <!-- Message -->
             <p id="message"></p>
-            <main>
-    <div class="complaint-box">
 
-        <h2>Submit Complaint</h2>
 
-        <form id="complaintForm">
+            <!-- Status Link -->
+            <p style="
+                text-align: center;
+                margin-top: 22px;
+                color: #667085;
+                font-size: 14px;
+            ">
+                Want to check your complaint status?
+            </p>
 
-            <label>Student Email</label>
-            <input type="email" id="student_email"
-                   placeholder="Enter your registered email" required>
-
-            <label>Complaint Title</label>
-            <input type="text" id="title"
-                   placeholder="Enter complaint title" required>
-
-            <label>Category</label>
-            <select id="category" required>
-                <option value="">Select Category</option>
-                <option value="Academic">Academic</option>
-                <option value="Hostel">Hostel</option>
-                <option value="Transport">Transport</option>
-                <option value="Canteen">Canteen</option>
-                <option value="Infrastructure">Infrastructure</option>
-                <option value="Other">Other</option>
-            </select>
-
-            <label>Description</label>
-            <textarea id="description"
-                      placeholder="Describe your complaint"
-                      required></textarea>
-
-            <button type="submit">Submit Complaint</button>
-
-        </form>
-
-        <p id="message"></p>
-
-        <!-- JavaScript goes here -->
-        <script>
-        document.getElementById("complaintForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            const data = {
-                student_email: document.getElementById("student_email").value,
-                title: document.getElementById("title").value,
-                category: document.getElementById("category").value,
-                description: document.getElementById("description").value
-            };
-
-            try {
-                const response = await fetch("https://campuscare-j018.onrender.com/submit-complaint", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                document.getElementById("message").textContent = result.message;
-
-            } catch (error) {
-                document.getElementById("message").textContent =
-                    "Unable to connect to CampusCare server.";
-            }
-        });
-        </script>
-
-    </div>
-</main>
-
-</body>
-</html>
+            <button
+                type="button"
+                onclick="window.location.href='student-status.html'"
+                style="
+                    background: white;
+                    color: #1d5db5;
+                    border: 1px solid #1d5db5;
+                    margin-top: 10px;
+                "
+            >
+                View My Complaints
+            </button>
 
         </div>
+
     </main>
 
+
+    <script>
+
+        document
+            .getElementById("complaintForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const message =
+                    document.getElementById("message");
+
+
+                const data = {
+
+                    student_email:
+                        document.getElementById("student_email")
+                        .value
+                        .trim(),
+
+                    title:
+                        document.getElementById("title")
+                        .value
+                        .trim(),
+
+                    category:
+                        document.getElementById("category")
+                        .value,
+
+                    location:
+                        document.getElementById("location")
+                        .value
+                        .trim(),
+
+                    description:
+                        document.getElementById("description")
+                        .value
+                        .trim()
+
+                };
+
+
+                message.textContent =
+                    "Submitting your complaint...";
+
+                message.style.color = "#1d5db5";
+
+
+                try {
+
+                    const response = await fetch(
+                        "https://campuscare-j018.onrender.com/submit-complaint",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(data)
+                        }
+                    );
+
+
+                    const result =
+                        await response.json();
+
+
+                    message.textContent =
+                        result.message ||
+                        "Complaint submitted successfully.";
+
+
+                    if (response.ok) {
+
+                        message.style.color = "green";
+
+                        document
+                            .getElementById("complaintForm")
+                            .reset();
+
+                    } else {
+
+                        message.style.color = "red";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    message.textContent =
+                        "Unable to connect to CampusCarePlus server.";
+
+                    message.style.color = "red";
+
+                }
+
+            });
+
+    </script>
+
 </body>
+
 </html>
