@@ -1,0 +1,379 @@
+
+    * {
+        box-sizing: border-box;
+        font-family: 'Times New Roman', Times, serif;
+     
+    }
+
+    body {
+        margin: 0;
+        background: #f4f7fb;
+        min-height: 100vh;
+    }
+
+    header {
+        background: #1e3a8a;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    header h1 {
+        margin: 0;
+    }
+
+    /* CampusCare Home Page */
+
+.home-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    text-align: center;
+}
+
+.home-main h2 {
+    margin-bottom: 15px;
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: underline;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.home-main p {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.home-main .buttons {
+    display: flex;
+    gap: 20px;
+    font-weight: bold;
+}
+
+.home-main .buttons button {
+    width: 180px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+    .login-box {
+        background: white;
+        width: 380px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .login-box h2 {
+        text-align: center;
+        margin-bottom: 25px;
+
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background: #1e3a8a;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #172554;
+    }
+
+    #message {
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+/* Complaint Page */
+
+.complaint-box {
+    background: white;
+    width: 500px;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.complaint-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.complaint-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.complaint-box input,
+.complaint-box select,
+.complaint-box textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.complaint-box textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.complaint-box button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.complaint-box button:hover {
+    background: #172554;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+/* Admin Dashboard */
+
+main {
+    padding: 30px;
+}
+
+main h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+th {
+    background: #1e3a8a;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #f4f7fb;
+}
+
+td select {
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    main {
+        padding: 15px;
+    }
+}
+/* Admin*/
+
+.login-box {
+    background: white;
+    width: 380px;
+    max-width: 90%;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #172554;
+}
+/* Navigation */
+
+nav {
+    margin-top: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+/* Dashboard Statistics */
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: white;
+    width: 200px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+/* Student Complaint Status */
+
+.status-box {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.status-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.status-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.status-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.status-box button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.status-box table {
+    margin-top: 30px;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
