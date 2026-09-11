@@ -1,135 +1,534 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>CampusCare - Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - CampusCarePlus</title>
+
     <link rel="stylesheet" href="campus.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>CampusCare 🏫</h1>
-        <p>Admin Dashboard</p>
-        <nav><a href="/admin-dashboard">Dashboard</a>
-            <a href="/complaint">Complaints</a>
-            <a href="/admin">Logout</a>
-        </nav>
-    </header>
+    <!-- Navigation -->
+    <nav class="navbar">
 
-    <main>
-        <h2>Student Complaints</h2>
-        <div class="stats-container">
+        <div class="logo">
+            CampusCarePlus 🏫
+        </div>
 
-    <div class="stat-card">
-        <h3>Total Complaints</h3>
-        <p id="totalComplaints">0</p>
-    </div>
+        <div class="nav-links">
+            <a href="campus.html">Home</a>
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="complaint.html">Complaints</a>
+            <a href="admin-login.html">Logout</a>
+        </div>
 
-    <div class="stat-card">
-        <h3>Pending</h3>
-        <p id="pendingComplaints">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>In Progress</h3>
-        <p id="progressComplaints">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Resolved</h3>
-        <p id="resolvedComplaints">0</p>
-    </div>
-
-</div>
-
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Student Email</th>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Updated Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-
-            <tbody id="complaintsTable">
-            </tbody>
-        </table>
-
-        <p id="message"></p>
-        <script>
-async function loadComplaints() {
-    try {
-        const response = await fetch("/complaints");
-        const complaints = await response.json();
-document.getElementById("totalComplaints").textContent = complaints.length;
-
-document.getElementById("pendingComplaints").textContent =
-    complaints.filter(c => c.status === "Pending").length;
-
-document.getElementById("progressComplaints").textContent =
-    complaints.filter(c => c.status === "In Progress").length;
-
-document.getElementById("resolvedComplaints").textContent =
-    complaints.filter(c => c.status === "Resolved").length;
-        const table = document.getElementById("complaintsTable");
-
-        table.innerHTML = "";
-
-        complaints.forEach(complaint => {
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${complaint.id}</td>
-                <td>${complaint.student_email}</td>
-                <td>${complaint.title}</td>
-                <td>${complaint.category}</td>
-                <td>${complaint.description}</td>
-                <td>${complaint.status}</td>
-<td>
-    <select onchange="updateStatus(${complaint.id}, this.value)">
-        <option value="Pending" ${complaint.status === "Pending" ? "selected" : ""}>Pending</option>
-        <option value="In Progress" ${complaint.status === "In Progress" ? "selected" : ""}>In Progress</option>
-        <option value="Resolved" ${complaint.status === "Resolved" ? "selected" : ""}>Resolved</option>
-    </select>
-</td>
-                <td>${complaint.created_at}</td>
-            `;
-
-            table.appendChild(row);
-        });
-
-    } catch (error) {
-        document.getElementById("message").textContent =
-            "Unable to load complaints.";
-    }
-}
-async function updateStatus(id, status) {
-    const response = await fetch(
-        `https://campuscare-j018.onrender.com/update-status/${id}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ status: status })
-        }
-    );
-
-    const result = await response.json();
-
-    document.getElementById("message").textContent = result.message;
-}
-    loadComplaints();
+    </nav>
 
 
-</script>
+    <!-- Dashboard -->
+    <main class="dashboard-page">
+
+        <div class="dashboard-header">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Manage and monitor student complaints
+                    from one place.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Statistics -->
+        <section class="stats-container">
+
+            <div class="stat-card">
+                <span class="stat-icon">📋</span>
+
+                <h3>Total Complaints</h3>
+
+                <p id="totalComplaints">0</p>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">🟡</span>
+
+                <h3>Pending</h3>
+
+                <p id="pendingComplaints">0</p>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">🔵</span>
+
+                <h3>In Progress</h3>
+
+                <p id="progressComplaints">0</p>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">🟢</span>
+
+                <h3>Resolved</h3>
+
+                <p id="resolvedComplaints">0</p>
+            </div>
+
+        </section>
+
+
+        <!-- Complaints -->
+        <section class="complaints-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Student Complaints</h2>
+
+                    <p>
+                        Review complaints and update their status.
+                    </p>
+                </div>
+
+                <button onclick="loadComplaints()">
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+
+            <!-- Search -->
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by title, category or student email..."
+                    onkeyup="filterComplaints()"
+                >
+
+            </div>
+
+
+            <!-- Table -->
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Student Email</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Update Status</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="complaintsTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <p id="message"></p>
+
+        </section>
 
     </main>
 
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 CampusCarePlus.
+            Smart Campus • Better Campus.
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        let allComplaints = [];
+
+
+        // Load complaints
+        async function loadComplaints() {
+
+            const message =
+                document.getElementById("message");
+
+            try {
+
+                message.textContent =
+                    "Loading complaints...";
+
+
+                const response = await fetch(
+                    "https://campuscare-j018.onrender.com/complaints"
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load complaints"
+                    );
+
+                }
+
+
+                const complaints =
+                    await response.json();
+
+
+                allComplaints = complaints;
+
+
+                updateStatistics(complaints);
+
+                displayComplaints(complaints);
+
+
+                message.textContent =
+                    complaints.length === 0
+                        ? "No complaints found."
+                        : "";
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "Unable to load complaints.";
+
+            }
+
+        }
+
+
+        // Update statistics
+        function updateStatistics(complaints) {
+
+            document.getElementById(
+                "totalComplaints"
+            ).textContent = complaints.length;
+
+
+            document.getElementById(
+                "pendingComplaints"
+            ).textContent =
+                complaints.filter(
+                    complaint =>
+                        complaint.status === "Pending"
+                ).length;
+
+
+            document.getElementById(
+                "progressComplaints"
+            ).textContent =
+                complaints.filter(
+                    complaint =>
+                        complaint.status === "In Progress"
+                ).length;
+
+
+            document.getElementById(
+                "resolvedComplaints"
+            ).textContent =
+                complaints.filter(
+                    complaint =>
+                        complaint.status === "Resolved"
+                ).length;
+
+        }
+
+
+        // Display complaints
+        function displayComplaints(complaints) {
+
+            const table =
+                document.getElementById(
+                    "complaintsTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+            complaints.forEach(complaint => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const idCell =
+                    document.createElement("td");
+
+                idCell.textContent =
+                    complaint.id;
+
+                row.appendChild(idCell);
+
+
+                const emailCell =
+                    document.createElement("td");
+
+                emailCell.textContent =
+                    complaint.student_email;
+
+                row.appendChild(emailCell);
+
+
+                const titleCell =
+                    document.createElement("td");
+
+                titleCell.textContent =
+                    complaint.title;
+
+                row.appendChild(titleCell);
+
+
+                const categoryCell =
+                    document.createElement("td");
+
+                categoryCell.textContent =
+                    complaint.category;
+
+                row.appendChild(categoryCell);
+
+
+                const descriptionCell =
+                    document.createElement("td");
+
+                descriptionCell.textContent =
+                    complaint.description;
+
+                row.appendChild(descriptionCell);
+
+
+                const statusCell =
+                    document.createElement("td");
+
+                statusCell.textContent =
+                    complaint.status;
+
+                row.appendChild(statusCell);
+
+
+                const updateCell =
+                    document.createElement("td");
+
+
+                const select =
+                    document.createElement("select");
+
+
+                const statuses = [
+                    "Pending",
+                    "In Progress",
+                    "Resolved"
+                ];
+
+
+                statuses.forEach(status => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = status;
+
+                    option.textContent = status;
+
+                    if (
+                        complaint.status === status
+                    ) {
+
+                        option.selected = true;
+
+                    }
+
+                    select.appendChild(option);
+
+                });
+
+
+                select.addEventListener(
+                    "change",
+                    function () {
+
+                        updateStatus(
+                            complaint.id,
+                            this.value
+                        );
+
+                    }
+                );
+
+
+                updateCell.appendChild(select);
+
+                row.appendChild(updateCell);
+
+
+                const dateCell =
+                    document.createElement("td");
+
+                dateCell.textContent =
+                    complaint.created_at;
+
+                row.appendChild(dateCell);
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // Update complaint status
+        async function updateStatus(id, status) {
+
+            const message =
+                document.getElementById("message");
+
+
+            try {
+
+                message.textContent =
+                    "Updating complaint status...";
+
+
+                const response =
+                    await fetch(
+                        `https://campuscare-j018.onrender.com/update-status/${id}`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                status: status
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to update status."
+                    );
+
+                }
+
+
+                message.textContent =
+                    result.message ||
+                    "Status updated successfully.";
+
+
+                await loadComplaints();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "Unable to update complaint status.";
+
+            }
+
+        }
+
+
+        // Search complaints
+        function filterComplaints() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value.toLowerCase();
+
+
+            const filtered =
+                allComplaints.filter(
+                    complaint =>
+
+                        String(complaint.id)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(complaint.student_email)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(complaint.title)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(complaint.category)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(complaint.description)
+                            .toLowerCase()
+                            .includes(search)
+                );
+
+
+            displayComplaints(filtered);
+
+        }
+
+
+        // Load complaints when page opens
+        loadComplaints();
+
+    </script>
+
 </body>
+
 </html>
