@@ -3,69 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - CampusCare</title>
-    <link rel="stylesheet" href="/campus.css">
+
+    <title>Admin Login - CampusCarePlus</title>
+
+    <link rel="stylesheet" href="campus.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>CampusCare 🏫</h1>
-        <p>Administrator Login</p>
-    </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            CampusCarePlus 🏫
+        </div>
 
-    <main>
+        <div class="nav-links">
+            <a href="campus.html">Home</a>
+            <a href="campus.html#features">Features</a>
+            <a href="campus.html#about">About</a>
+        </div>
+    </nav>
+
+
+    <!-- Admin Login -->
+    <main class="login-page">
+
         <div class="login-box">
+
+            <div class="login-icon">🔐</div>
+
             <h2>Admin Login</h2>
+
+            <p class="login-subtitle">
+                Secure access for CampusCare administrators
+            </p>
 
             <form id="adminLoginForm">
 
-    <label>Username</label>
-    <input type="text" id="username"
-           placeholder="Enter username" required>
+                <label for="username">Username</label>
 
-    <label>Password</label>
-    <input type="password" id="password"
-           placeholder="Enter password" required>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter admin username"
+                    required
+                >
 
-    <button type="submit">Login</button>
 
-</form>
+                <label for="password">Password</label>
 
-<p id="message"></p>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter admin password"
+                    required
+                >
+
+
+                <button type="submit">
+                    Login to Dashboard
+                </button>
+
+            </form>
+
+            <p id="message"></p>
+
+            <a href="campus.html" class="back-link">
+                ← Back to Home
+            </a>
+
         </div>
+
     </main>
-<script>
-document.getElementById("adminLoginForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
 
-    const data = {
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value
-    };
 
-    try {
-        const response = await fetch("https://campuscare-jd18.onrender.com/admin-login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 CampusCarePlus. Smart Campus • Better Campus.</p>
+    </footer>
 
-        const result = await response.json();
 
-        if (response.ok) {
-            window.location.href = "https://campuscare-j018.onrender.com/admin-dashboard";
-        } else {
-            document.getElementById("message").textContent = result.message;
-        }
+    <script>
 
-    } catch (error) {
-        document.getElementById("message").textContent =
-            "Unable to connect to CampusCare server.";
-    }
-});
-</script>
+        document
+            .getElementById("adminLoginForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const username =
+                    document.getElementById("username").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+
+                const message =
+                    document.getElementById("message");
+
+
+                message.textContent = "Logging in...";
+
+
+                const data = {
+                    username: username,
+                    password: password
+                };
+
+
+                try {
+
+                    const response = await fetch(
+                        "https://campuscare-j018.onrender.com/admin-login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(data)
+                        }
+                    );
+
+
+                    const result = await response.json();
+
+
+                    if (response.ok) {
+
+                        message.textContent =
+                            "Login successful!";
+
+                        setTimeout(function() {
+
+                            window.location.href =
+                                "admin-dashboard.html";
+
+                        }, 500);
+
+                    } else {
+
+                        message.textContent =
+                            result.message || "Invalid username or password.";
+
+                    }
+
+                } catch (error) {
+
+                    message.textContent =
+                        "Unable to connect to CampusCare server.";
+
+                }
+
+            });
+
+    </script>
+
 </body>
 </html>
